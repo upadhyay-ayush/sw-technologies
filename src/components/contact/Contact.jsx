@@ -1,7 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
+import { motion } from "framer-motion";
+
+import {
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+  FaPaperPlane,
+} from "react-icons/fa";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -33,7 +40,7 @@ export default function ContactPage() {
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$/i.test(formData.email)
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
     ) {
       newErrors.email = "Invalid email address";
     }
@@ -81,95 +88,108 @@ export default function ContactPage() {
 
   return (
     <>
-      {/* Banner */}
-      <section className="bg-slate-950 text-white py-28">
-        <div className="container-width text-center">
-          <p className="text-sky-400 uppercase tracking-wider font-semibold">
-            Contact Us
-          </p>
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-[#020617] text-white py-36">
+        {/* Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-sky-500/10 blur-[120px]" />
 
-          <h1 className="text-5xl font-bold mt-4">Let’s Work Together</h1>
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-cyan-400/10 blur-[120px]" />
 
-          <p className="text-slate-300 mt-6 max-w-2xl mx-auto leading-8">
-            Have a project idea or business requirement? Get in touch with SW
-            Technologies today.
-          </p>
+          {/* Grid */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:70px_70px]" />
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 70 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="container-width relative z-10 text-center"
+        >
+          <span className="inline-block px-5 py-2 rounded-full border border-sky-400/20 bg-sky-400/10 text-sky-400 text-sm font-semibold tracking-[3px] uppercase">
+            Contact Us
+          </span>
+
+          <h1 className="text-5xl md:text-7xl font-black mt-8 leading-tight">
+            Let’s Build Something
+            <span className="block bg-gradient-to-r from-sky-400 to-cyan-300 bg-clip-text text-transparent">
+              Amazing Together
+            </span>
+          </h1>
+
+          <p className="text-slate-400 mt-8 max-w-3xl mx-auto text-lg leading-8">
+            Have a project idea or business requirement? Get in touch with SW
+            Technologies and let’s create something extraordinary.
+          </p>
+        </motion.div>
       </section>
 
       {/* Contact Section */}
-      <section className="section-padding bg-slate-50">
-        <div className="container-width grid lg:grid-cols-2 gap-12">
-          {/* Form */}
-          <div className="bg-white rounded-3xl shadow-lg p-8 md:p-10">
-            <h2 className="text-3xl font-bold mb-8">Send Message</h2>
+      <section className="relative py-24 overflow-hidden bg-[#020617] text-white">
+        {/* Background Glow */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-sky-500/10 blur-[120px]" />
+
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-400/10 blur-[120px]" />
+        </div>
+
+        <div className="container-width relative z-10 grid lg:grid-cols-2 gap-12">
+          {/* Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true }}
+            className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl p-8 md:p-10"
+          >
+            <h2 className="text-4xl font-black mb-8">Send Message</h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name */}
-              <div>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full border border-slate-300 rounded-xl px-5 py-4 outline-none focus:border-sky-500"
-                />
+              {/* Input Style */}
+              {[
+                {
+                  type: "text",
+                  name: "name",
+                  placeholder: "Your Name",
+                },
 
-                {errors.name && (
-                  <p className="text-red-500 text-sm mt-2">{errors.name}</p>
-                )}
-              </div>
+                {
+                  type: "email",
+                  name: "email",
+                  placeholder: "Your Email",
+                },
 
-              {/* Email */}
-              <div>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Your Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full border border-slate-300 rounded-xl px-5 py-4 outline-none focus:border-sky-500"
-                />
+                {
+                  type: "text",
+                  name: "phone",
+                  placeholder: "Phone Number",
+                },
 
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-2">{errors.email}</p>
-                )}
-              </div>
+                {
+                  type: "text",
+                  name: "subject",
+                  placeholder: "Subject",
+                },
+              ].map((field, index) => (
+                <div key={index}>
+                  <input
+                    type={field.type}
+                    name={field.name}
+                    placeholder={field.placeholder}
+                    value={formData[field.name]}
+                    onChange={handleChange}
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white placeholder:text-slate-500 outline-none focus:border-sky-400 transition"
+                  />
 
-              {/* Phone */}
-              <div>
-                <input
-                  type="text"
-                  name="phone"
-                  placeholder="Phone Number"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full border border-slate-300 rounded-xl px-5 py-4 outline-none focus:border-sky-500"
-                />
+                  {errors[field.name] && (
+                    <p className="text-red-400 text-sm mt-2">
+                      {errors[field.name]}
+                    </p>
+                  )}
+                </div>
+              ))}
 
-                {errors.phone && (
-                  <p className="text-red-500 text-sm mt-2">{errors.phone}</p>
-                )}
-              </div>
-
-              {/* Subject */}
-              <div>
-                <input
-                  type="text"
-                  name="subject"
-                  placeholder="Subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="w-full border border-slate-300 rounded-xl px-5 py-4 outline-none focus:border-sky-500"
-                />
-
-                {errors.subject && (
-                  <p className="text-red-500 text-sm mt-2">{errors.subject}</p>
-                )}
-              </div>
-
-              {/* Message */}
+              {/* Textarea */}
               <div>
                 <textarea
                   rows="6"
@@ -177,71 +197,76 @@ export default function ContactPage() {
                   placeholder="Your Message"
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full border border-slate-300 rounded-xl px-5 py-4 outline-none focus:border-sky-500"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white placeholder:text-slate-500 outline-none focus:border-sky-400 transition"
                 />
 
                 {errors.message && (
-                  <p className="text-red-500 text-sm mt-2">{errors.message}</p>
+                  <p className="text-red-400 text-sm mt-2">{errors.message}</p>
                 )}
               </div>
 
+              {/* Button */}
               <button
                 type="submit"
-                className="bg-sky-500 hover:bg-sky-600 transition text-white px-8 py-4 rounded-xl font-semibold"
+                className="group inline-flex items-center gap-3 bg-gradient-to-r from-sky-500 to-cyan-400 hover:scale-105 transition-all duration-300 text-white px-8 py-4 rounded-2xl font-semibold shadow-[0_10px_40px_rgba(14,165,233,0.35)]"
               >
                 Send Message
+                <FaPaperPlane className="group-hover:translate-x-1 transition" />
               </button>
             </form>
-          </div>
+          </motion.div>
 
-          {/* Contact Info */}
-          <div>
-            <div className="bg-white rounded-3xl shadow-lg p-8 md:p-10">
-              <h2 className="text-3xl font-bold mb-8">Contact Details</h2>
+          {/* Contact Details */}
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true }}
+            className="space-y-8"
+          >
+            {/* Info Card */}
+            <div className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl p-8 md:p-10">
+              <h2 className="text-4xl font-black mb-10">Contact Details</h2>
 
               <div className="space-y-8">
-                <div className="flex gap-4">
-                  <div className="text-sky-500 text-2xl mt-1">
-                    <FaMapMarkerAlt />
+                {[
+                  {
+                    icon: <FaMapMarkerAlt />,
+                    title: "Address",
+                    value: "New Delhi, India",
+                  },
+
+                  {
+                    icon: <FaPhoneAlt />,
+                    title: "Phone",
+                    value: "+91 9876543210",
+                  },
+
+                  {
+                    icon: <FaEnvelope />,
+                    title: "Email",
+                    value: "info@swtechnologies.com",
+                  },
+                ].map((item, index) => (
+                  <div key={index} className="flex items-start gap-5">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-500 to-cyan-400 flex items-center justify-center text-2xl shadow-[0_10px_40px_rgba(14,165,233,0.35)]">
+                      {item.icon}
+                    </div>
+
+                    <div>
+                      <h3 className="text-2xl font-bold">{item.title}</h3>
+
+                      <p className="text-slate-400 mt-2 leading-7">
+                        {item.value}
+                      </p>
+                    </div>
                   </div>
-
-                  <div>
-                    <h3 className="text-xl font-semibold">Address</h3>
-
-                    <p className="text-slate-600 mt-2">New Delhi, India</p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="text-sky-500 text-2xl mt-1">
-                    <FaPhoneAlt />
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-semibold">Phone</h3>
-
-                    <p className="text-slate-600 mt-2">+91 9876543210</p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="text-sky-500 text-2xl mt-1">
-                    <FaEnvelope />
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-semibold">Email</h3>
-
-                    <p className="text-slate-600 mt-2">
-                      info@swtechnologies.com
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
             {/* Map */}
-            <div className="mt-8 rounded-3xl overflow-hidden shadow-lg">
+            <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224346.48165244688!2d77.0688997188934!3d28.527280343046214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1d8f5e5b5f8f%3A0x5cfc9e4a5e5b6c3c!2sNew%20Delhi!5e0!3m2!1sen!2sin!4v1719833300000!5m2!1sen!2sin"
                 width="100%"
@@ -251,7 +276,7 @@ export default function ContactPage() {
                 loading="lazy"
               ></iframe>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
     </>
