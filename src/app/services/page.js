@@ -1,5 +1,6 @@
-import Services from '@/components/Services'
-import ServicesPage from '@/components/services/services'
+
+
+import ServicesPage from '@/components/services/Services'
 import React from 'react'
 
 const page = () => {
